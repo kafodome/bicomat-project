@@ -1,12 +1,17 @@
 package com.c353.projet.bicomat.data;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,9 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "banque")
 @NamedQuery(
-    name="findAllBanques",
-    query="SELECT b FROM Banque b " +
-          "ORDER BY b.id"
+        name = "findAllBanques",
+        query = "SELECT b FROM Banque b "
+        + "ORDER BY b.id"
 )
 @XmlRootElement(name = "banque")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,6 +44,13 @@ public class Banque implements Serializable {
 
     @XmlElement(required = true)
     private String adresse;
+
+    @ManyToMany
+    @JoinTable(
+            name = "banque_client",
+            joinColumns = @JoinColumn(name = "banque_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
+    private List<Client> clients;
 
     public Long getId() {
         return id;
@@ -62,6 +74,14 @@ public class Banque implements Serializable {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 
     @Override
@@ -98,5 +118,5 @@ public class Banque implements Serializable {
     public String toString() {
         return "Banque{" + "id=" + id + ", nom=" + nom + ", adresse=" + adresse + '}';
     }
-    
+
 }

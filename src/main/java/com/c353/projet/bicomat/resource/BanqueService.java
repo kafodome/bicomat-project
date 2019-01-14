@@ -47,7 +47,7 @@ public class BanqueService {
 
     @GET
     @Path("all")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Banque> getAllBanques() {
         List<Banque> banques = null;
         try {
@@ -65,7 +65,7 @@ public class BanqueService {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public Banque getBanque(@PathParam("id") Long banqueId) {
         Banque banque = null;
 
@@ -80,7 +80,7 @@ public class BanqueService {
     }
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON})
     public void createBanque(Banque banque) {
 
         try {
@@ -96,7 +96,7 @@ public class BanqueService {
 
     @PUT
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON})
     public Response updateBanque(@PathParam("id") Long banqueId,
             Banque banque) {
 
