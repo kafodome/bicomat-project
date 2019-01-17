@@ -9,9 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,22 +16,24 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @Entity
-@Table(name = "banque")
+@Table(name = "conseiller")
 @NamedQuery(
-        name = "findAllBanques",
-        query = "SELECT b FROM Banque b "
-        + "ORDER BY b.id"
+        name = "findAllConseillers",
+        query = "SELECT c FROM Conseiller c "
+        + "ORDER BY c.id"
 )
-@XmlRootElement(name = "banque")
+@XmlRootElement(name = "conseiller")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Banque implements Serializable {
+public class Conseiller implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +46,16 @@ public class Banque implements Serializable {
 
     @Column(nullable = false)
     @XmlElement(required = true)
-    private String adresse;
+    private String prenom;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "banque_client",
-            joinColumns = @JoinColumn(name = "banque_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
-    private List<Client> clients;
+    @XmlElement(required = true)
+    private String login;
+
+    @XmlTransient
+    private String password;
+    
+    @OneToMany(mappedBy = "conseiller", fetch = FetchType.EAGER)
+    private List<ClientInterne> clients;
 
     public Long getId() {
         return id;
@@ -72,28 +73,43 @@ public class Banque implements Serializable {
         this.nom = nom;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
-    public List<Client> getClients() {
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<ClientInterne> getClients() {
         return clients;
     }
 
-    public void setClients(List<Client> clients) {
+    public void setClients(List<ClientInterne> clients) {
         this.clients = clients;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.nom);
-        hash = 19 * hash + Objects.hashCode(this.adresse);
+        hash = 97 * hash + Objects.hashCode(this.nom);
+        hash = 97 * hash + Objects.hashCode(this.prenom);
         return hash;
     }
 
@@ -108,19 +124,16 @@ public class Banque implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Banque other = (Banque) obj;
+        final Conseiller other = (Conseiller) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
-        if (!Objects.equals(this.adresse, other.adresse)) {
-            return false;
-        }
-        return Objects.equals(this.id, other.id);
+        return Objects.equals(this.prenom, other.prenom);
     }
 
     @Override
     public String toString() {
-        return "Banque{" + "id=" + id + ", nom=" + nom + ", adresse=" + adresse + '}';
+        return "Conseiller{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", login=" + login + '}';
     }
-
+    
 }

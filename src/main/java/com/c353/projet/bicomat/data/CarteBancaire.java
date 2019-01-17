@@ -32,21 +32,22 @@ public class CarteBancaire implements Serializable {
     @XmlAttribute(name = "num_carte", required = true)
     private String numCarte;
 
-    @Column(name = "type_carte")
+    @Column(name = "type_carte", nullable = false)
     @XmlElement(name = "type_carte", required = true)
     private String typeCarte;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     @XmlElement(required = true)
     private Date echeance;
 
-    @Column(name = "code_crypto")
+    @Column(name = "code_crypto", nullable = false)
     @XmlElement(name = "code_crypto", required = true)
     private String codeCrypto;
 
     @ManyToOne
-    @JoinColumn(name = "titulaire")
-    @XmlElement(name = "titulaire")
+    @JoinColumn(name = "utilisateur", nullable = false)
+    @XmlElement(name = "utilisateur")
     private Client client;
 
     public String getNumCarte() {

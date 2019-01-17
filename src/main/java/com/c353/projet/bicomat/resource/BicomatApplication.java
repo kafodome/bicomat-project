@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.c353.projet.bicomat.resource;
 
 import java.util.HashSet;
@@ -12,7 +7,7 @@ import javax.ws.rs.core.Application;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @ApplicationPath("/webapi")
 public class BicomatApplication extends Application {
@@ -20,8 +15,10 @@ public class BicomatApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
-        // register root resource
         classes.add(BanqueService.class);
+        classes.add(ClientService.class);
+        classes.add(CompteService.class);
+        classes.add(ConseillerService.class);
         return classes;
     }
 

@@ -18,7 +18,7 @@ public class BanqueBean {
 
     @PersistenceContext
     EntityManager em;
-    private static final Logger logger = Logger.getLogger("com.c353.projet.bicomat.ejb.BanqueBean");
+    private static final Logger logger = Logger.getLogger("com.c353.projet.bicomat.ejb.CompteBean");
 
     public void persist(Banque banque) {
         try {

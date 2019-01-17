@@ -11,11 +11,13 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -23,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
  *
@@ -32,7 +35,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Inheritance
 @DiscriminatorColumn(name = "type_client")
 @Table(name = "client")
+@NamedQuery(
+        name = "findAllClients",
+        query = "SELECT c FROM Client c "
+        + "ORDER BY c.id"
+)
 @XmlRootElement(name = "client")
+@XmlSeeAlso({ClientInterne.class, ClientTiers.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Client implements Serializable {
 
@@ -41,21 +50,27 @@ public class Client implements Serializable {
     @XmlAttribute(required = true)
     protected Long id;
 
+    @Column(nullable = false)
     protected String nom;
 
+    @Column(nullable = false)
     protected String prenom;
 
+    @Column(nullable = false)
     protected String profession;
 
     protected String email;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     @XmlElement(name = "carte_bancaires")
     protected List<CarteBancaire> carteBancaires;
 
-    @ManyToMany(mappedBy = "clients")
+    @ManyToMany(mappedBy = "clients", fetch = FetchType.EAGER)
     @XmlElement(name = "banques")
     protected List<Banque> banques;
+    
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    protected List<Compte> comptes;
 
     public Long getId() {
         return id;
@@ -133,11 +148,6 @@ public class Client implements Serializable {
             return false;
         }
         return Objects.equals(this.email, other.email);
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", profession=" + profession + ", email=" + email + '}';
     }
 
 }
