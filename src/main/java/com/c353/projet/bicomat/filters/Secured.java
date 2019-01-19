@@ -7,7 +7,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 import javax.ws.rs.NameBinding;
 
-
 /**
  *
  * @author Kwami Anukana AFODOME
@@ -15,4 +14,5 @@ import javax.ws.rs.NameBinding;
 @NameBinding
 @Retention(RUNTIME)
 @Target({TYPE, METHOD})
-public @interface Secured { }
+public @interface Secured {
+}

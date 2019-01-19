@@ -18,7 +18,8 @@ public class ConseillerBean {
 
     @PersistenceContext
     EntityManager em;
-    private static final Logger logger = Logger.getLogger("com.c353.projet.bicomat.ejb.ConseillerBean");
+    private static final Logger logger
+            = Logger.getLogger("com.c353.projet.bicomat.ejb.ConseillerBean");
 
     public void persist(Conseiller conseiller) {
         try {
@@ -46,6 +47,19 @@ public class ConseillerBean {
         } catch (Exception e) {
             logger.log(Level.WARNING,
                     "Impossible de retrouver le conseiller ayant l'ID {0}", conseillerId);
+        }
+        return conseiller;
+    }
+
+    public Conseiller findByLoginAndPassword(String login, String password) {
+        Conseiller conseiller = null;
+        try {
+            conseiller = (Conseiller) em.createNamedQuery("authenticateConseiller").
+                    setParameter("login", login).
+                    setParameter("password", password).getSingleResult();
+        } catch (Exception e) {
+            logger.log(Level.WARNING,
+                    "Could not find conseiller with login of {0} ", login);
         }
         return conseiller;
     }

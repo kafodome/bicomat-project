@@ -24,7 +24,7 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 @Stateless
 public class AuthenticationFilter implements ContainerRequestFilter {
-    
+
     @Inject
     AuthSessionBean authSessionBean;
 
@@ -57,19 +57,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         // Check if it was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid        
         AuthSession authSession = null;
-        
+
         try {
             authSession = authSessionBean.findByToken(token);
-            
-            
+
             if (authSession == null) {
                 throw new NotFoundException("Invalid token provided");
             } else {
                 LocalDateTime currentDateTime = LocalDateTime.now();
-                Duration duration = Duration.between(currentDateTime,authSession.getExpiryDate());
-                
+                Duration duration = Duration.between(currentDateTime, authSession.getExpiryDate());
+
                 System.err.println(duration);
-                if(duration.isNegative() || duration.isZero()){
+                if (duration.isNegative() || duration.isZero()) {
                     throw new ForbiddenException("Your session has expired");
                 }
                 authSession.setExpiryDate(LocalDateTime.now().plusMinutes(15L));
@@ -77,7 +76,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
 

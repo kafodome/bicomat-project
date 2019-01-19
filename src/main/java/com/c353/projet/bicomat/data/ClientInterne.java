@@ -43,7 +43,7 @@ public class ClientInterne extends Client {
     private String password;
 
     private String annee;
-    
+
     private String token;
 
     @Column(name = "num_portable")

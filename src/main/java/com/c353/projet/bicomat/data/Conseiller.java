@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,11 +25,19 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "conseiller")
-@NamedQuery(
-        name = "findAllConseillers",
-        query = "SELECT c FROM Conseiller c "
-        + "ORDER BY c.id"
-)
+@NamedQueries({
+    @NamedQuery(
+            name = "findAllConseillers",
+            query = "SELECT c FROM Conseiller c ORDER BY c.id"
+    )
+    ,
+    @NamedQuery(
+            name = "authenticateConseiller",
+            query = "SELECT c FROM Conseiller c "
+            + "WHERE c.login = :login AND c.password = :password"
+    )
+
+})
 @XmlRootElement(name = "conseiller")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Conseiller implements Serializable {
@@ -49,10 +56,13 @@ public class Conseiller implements Serializable {
     private String prenom;
 
     @XmlElement(required = true)
+    @Column()
     private String login;
 
     @XmlTransient
     private String password;
+
+    private String token;
 
     @OneToMany(mappedBy = "conseiller")
     @XmlTransient
@@ -96,6 +106,14 @@ public class Conseiller implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public List<ClientInterne> getClients() {

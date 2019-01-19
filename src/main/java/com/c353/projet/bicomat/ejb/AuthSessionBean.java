@@ -93,12 +93,10 @@ public class AuthSessionBean {
         Query q = em.createNativeQuery(jpql);
         return (Date) q.getSingleResult();
     }
-    
+
     public Integer getSessionDuration() {
         String jpql = "SELECT DATE_ADD( CURRENT_TIMESTAMP , INTERVAL '30' MINUTE)";
         Query q = em.createNativeQuery(jpql);
         return (Integer) q.getSingleResult();
     }
-
-
 }

@@ -3,6 +3,7 @@ package com.c353.projet.bicomat.resource;
 import com.c353.projet.bicomat.data.AuthSession;
 import com.c353.projet.bicomat.data.Client;
 import com.c353.projet.bicomat.data.ClientInterne;
+import com.c353.projet.bicomat.data.Conseiller;
 import com.c353.projet.bicomat.data.Credentials;
 import com.c353.projet.bicomat.ejb.AuthSessionBean;
 import com.c353.projet.bicomat.ejb.ClientBean;
@@ -33,7 +34,7 @@ public class AuthenticationService {
 
     public static final Logger logger
             = Logger.getLogger(ClientService.class.getCanonicalName());
-    
+
     @Inject
     ClientBean clientBean;
 
@@ -58,12 +59,38 @@ public class AuthenticationService {
             // Issue a token for the user
             String token = issueToken(login);
             // Return the token on the response
-            
+
             if (token != null && client != null) {
                 client.setToken(token);
                 clientBean.merge(client);
             }
             return Response.ok(client).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
+
+    @POST
+    @Path("conseiller")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response conseillerAuthentication(@Valid Credentials credentials) {
+        String login = credentials.getLogin();
+        String password = credentials.getPassword();
+        Conseiller conseiller = null;
+
+        try {
+            // Authenticate the user using the credentials provided
+            conseiller = authenticateConseiller(login, password);
+            // Issue a token for the user
+            String token = issueToken(login);
+            // Return the token on the response
+
+            if (token != null && conseiller != null) {
+                conseiller.setToken(token);
+                conseillerBean.merge(conseiller);
+            }
+            return Response.ok(conseiller).build();
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
@@ -84,13 +111,18 @@ public class AuthenticationService {
         return client;
     }
 
-    private void authenticateConseiller(String login, String password) {
-        Client client = null;
+    private Conseiller authenticateConseiller(String login, String password) {
+        Conseiller conseiller = null;
 
         try {
-            client = clientBean.findByLoginAndPassword(login, password);
+            conseiller = conseillerBean.findByLoginAndPassword(login, password);
         } catch (Exception e) {
+            logger.log(Level.SEVERE,
+                    "Error calling authenticateConseiller()");
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
+
+        return conseiller;
     }
 
     private String issueToken(String login) {

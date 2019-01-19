@@ -28,7 +28,6 @@ import javax.ws.rs.core.Response;
  *
  * @author AFK
  */
-@Secured
 @Stateless
 @Path("/banque")
 public class BanqueService {

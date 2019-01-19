@@ -7,7 +7,6 @@ package com.c353.projet.bicomat.data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -28,8 +25,9 @@ import javax.persistence.TemporalType;
 @Table(name = "auth_session")
 @NamedQueries({
     @NamedQuery(name = "findAllAuthSessions",
-            query = "SELECT a FROM AuthSession a ORDER BY a.id"),
-    @NamedQuery(name = "findByToken", 
+            query = "SELECT a FROM AuthSession a ORDER BY a.id")
+    ,
+    @NamedQuery(name = "findByToken",
             query = "SELECT a FROM AuthSession a WHERE a.token = :token")
 })
 public class AuthSession implements Serializable {
@@ -37,17 +35,17 @@ public class AuthSession implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private String username;
-    
+
     @Column(nullable = false)
     private String token;
-    
-    @Column(name = "start_date")
+
+    @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate = LocalDateTime.now();
 
-    @Column(name = "expiry_date")
+    @Column(name = "expiry_date", nullable = false)
     private LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(15L);
 
     public Long getId() {
@@ -89,8 +87,6 @@ public class AuthSession implements Serializable {
     public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
     }
-
-
 
     @Override
     public int hashCode() {
