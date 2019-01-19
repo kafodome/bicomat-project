@@ -11,5 +11,5 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("1")
 public class OperationPonctuelle extends Operation implements Serializable {
-    
+
 }

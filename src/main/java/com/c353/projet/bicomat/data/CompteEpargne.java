@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "compte")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Compte Épargne")
-public class CompteEpargne extends Compte implements Serializable{
-    
+public class CompteEpargne extends Compte implements Serializable {
+
     @Column(name = "taux_remuneration")
     private double tauxRemuneration;
 
@@ -30,5 +30,5 @@ public class CompteEpargne extends Compte implements Serializable{
     public void setTauxRemuneration(double tauxRemuneration) {
         this.tauxRemuneration = tauxRemuneration;
     }
-    
+
 }

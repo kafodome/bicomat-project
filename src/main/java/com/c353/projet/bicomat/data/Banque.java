@@ -13,24 +13,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @Entity
 @Table(name = "banque")
 @NamedQuery(
         name = "findAllBanques",
-        query = "SELECT b FROM Banque b "
-        + "ORDER BY b.id"
+        query = "SELECT b FROM Banque b ORDER BY b.id"
 )
 @XmlRootElement(name = "banque")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -49,11 +48,12 @@ public class Banque implements Serializable {
     @XmlElement(required = true)
     private String adresse;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "banque_client",
             joinColumns = @JoinColumn(name = "banque_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
+    @XmlTransient
     private List<Client> clients;
 
     public Long getId() {

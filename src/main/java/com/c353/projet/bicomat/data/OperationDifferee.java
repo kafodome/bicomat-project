@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 @Entity
 @DiscriminatorValue("2")
 public class OperationDifferee extends Operation implements Serializable {
-    
+
     @Temporal(TemporalType.DATE)
     private Date echeance;
 
@@ -25,5 +25,5 @@ public class OperationDifferee extends Operation implements Serializable {
     public void setEcheance(Date echeance) {
         this.echeance = echeance;
     }
-    
+
 }

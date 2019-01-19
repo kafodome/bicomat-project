@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,7 +33,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
     @NamedQuery(
             name = "findAllComptes",
             query = "SELECT c FROM Compte c ORDER BY c.numCompte"
-    ), 
+    )
+    , 
     @NamedQuery(name = "findByClient",
             query = "SELECT c FROM Compte c WHERE c.client = :client")})
 @XmlRootElement(name = "compte")
@@ -49,9 +51,9 @@ public class Compte implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "proprietaire", nullable = false)
-    @XmlElement(name = "proprietaire", required = true)
+    @XmlTransient
     protected Client client;
-    
+
     @OneToMany(mappedBy = "compteA")
     protected List<Operation> operations;
 

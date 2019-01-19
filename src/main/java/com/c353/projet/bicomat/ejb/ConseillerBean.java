@@ -35,10 +35,9 @@ public class ConseillerBean {
         } catch (Exception e) {
             logger.warning("Une erreur s'est produite pendant la mise à jour du Conseiller");
             logger.warning(e.getMessage());
-        }    
+        }
     }
-    
-    
+
     public Conseiller findById(Long conseillerId) {
         Conseiller conseiller = null;
         try {

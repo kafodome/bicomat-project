@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,24 +20,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @DiscriminatorValue("2")
+@NamedQueries({
+    @NamedQuery(
+            name = "findByConseiller",
+            query = "SELECT c FROM ClientInterne c "
+            + "WHERE c.conseiller = :conseiller ORDER BY c.id"
+    )
+    ,    
+    @NamedQuery(
+            name = "authenticateClient",
+            query = "SELECT c FROM ClientInterne c "
+            + "WHERE c.login = :login AND c.password = :password"
+    )
+})
 @XmlRootElement(name = "client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "2")
 public class ClientInterne extends Client {
 
     private String login;
-    
+
     private String password;
-    
+
     private String annee;
     
+    private String token;
+
     @Column(name = "num_portable")
     private String numPortable;
 
-    public ClientInterne() {
-        super();
-    }
-    
     @ManyToOne
     @XmlTransient
     private Conseiller conseiller;
@@ -72,10 +85,18 @@ public class ClientInterne extends Client {
         this.numPortable = numPortable;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Conseiller getConseiller() {
         return conseiller;
     }
-    
+
     public List<Banque> getBanques() {
         return banques;
     }
@@ -91,8 +112,6 @@ public class ClientInterne extends Client {
     public void setComptes(List<Compte> comptes) {
         this.comptes = comptes;
     }
-    
-    
 
     public void setConseiller(Conseiller conseiller) {
         this.conseiller = conseiller;
@@ -123,5 +142,5 @@ public class ClientInterne extends Client {
         }
         return Objects.equals(this.numPortable, other.numPortable);
     }
-        
+
 }

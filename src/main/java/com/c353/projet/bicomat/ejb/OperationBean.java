@@ -35,10 +35,9 @@ public class OperationBean {
         } catch (Exception e) {
             logger.warning("Une erreur s'est produite pendant la mise à jour de l'opération");
             logger.warning(e.getMessage());
-        }    
+        }
     }
-    
-    
+
     public Operation findById(Long numOperation) {
         Operation operation = null;
         try {

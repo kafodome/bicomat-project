@@ -96,7 +96,7 @@ public class CompteService {
                     Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @POST
     @Path("compte_epargne")
     @Consumes({MediaType.APPLICATION_JSON})

@@ -60,11 +60,11 @@ public class Operation implements Serializable {
 
     @Column(nullable = false)
     protected boolean signe;
-    
+
     @ManyToOne
     @JoinColumn(name = "compte_a", nullable = false)
     protected Compte compteA;
-    
+
     @ManyToOne
     @JoinColumn(name = "compte_b", nullable = false)
     protected Compte compteB;

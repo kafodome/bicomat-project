@@ -50,12 +50,12 @@ public class CompteBean {
         }
         return compte;
     }
-    
+
     public List<Compte> findByClient(Client client) {
         List<Compte> comptes = new ArrayList<>();
         try {
-             comptes = (List<Compte>) em.createNamedQuery("findByClient").
-                setParameter("client", client).getResultList();
+            comptes = (List<Compte>) em.createNamedQuery("findByClient").
+                    setParameter("client", client).getResultList();
         } catch (Exception e) {
             logger.log(Level.WARNING, "Une erreur s'est produite lors de "
                     + "la récupération des comptes du client");
@@ -63,7 +63,7 @@ public class CompteBean {
         }
         return comptes;
     }
-    
+
     public List<Compte> findAllComptes() {
         List<Compte> comptes = new ArrayList<>();
         try {

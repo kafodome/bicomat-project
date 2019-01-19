@@ -35,10 +35,9 @@ public class BanqueBean {
         } catch (Exception e) {
             logger.warning("Something went wrong when merging the banque");
             logger.warning(e.getMessage());
-        }    
+        }
     }
-    
-    
+
     public Banque findById(Long banqueId) {
         Banque banque = null;
         try {

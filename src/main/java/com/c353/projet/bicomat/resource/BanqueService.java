@@ -2,6 +2,7 @@ package com.c353.projet.bicomat.resource;
 
 import com.c353.projet.bicomat.data.Banque;
 import com.c353.projet.bicomat.ejb.BanqueBean;
+import com.c353.projet.bicomat.filters.Secured;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.Response;
  *
  * @author AFK
  */
+@Secured
 @Stateless
 @Path("/banque")
 public class BanqueService {
@@ -99,7 +101,6 @@ public class BanqueService {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateBanque(@PathParam("id") Long banqueId,
             Banque banque) {
-
         try {
             Banque oldBanque = this.banqueBean.findById(banqueId);
 

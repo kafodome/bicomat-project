@@ -1,6 +1,8 @@
 package com.c353.projet.bicomat.ejb;
 
 import com.c353.projet.bicomat.data.Client;
+import com.c353.projet.bicomat.data.ClientInterne;
+import com.c353.projet.bicomat.data.Conseiller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,10 +37,9 @@ public class ClientBean {
         } catch (Exception e) {
             logger.warning("Something went wrong when merging the client");
             logger.warning(e.getMessage());
-        }    
+        }
     }
-    
-    
+
     public Client findById(Long clientId) {
         Client client = null;
         try {
@@ -47,6 +48,30 @@ public class ClientBean {
         } catch (Exception e) {
             logger.log(Level.WARNING,
                     "Could not find client with ID of {0}", clientId);
+        }
+        return client;
+    }
+
+    public List<Client> findByConseiller(Conseiller conseiller) {
+        List<Client> clients = new ArrayList<>();
+        try {
+            clients = (List<Client>) em.createNamedQuery("findByConseiller").
+                    setParameter("conseiller", conseiller).getResultList();
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "Error when finding all clients");
+        }
+        return clients;
+    }
+
+    public ClientInterne findByLoginAndPassword(String login, String password) {
+        ClientInterne client = null;
+        try {
+            client = (ClientInterne) em.createNamedQuery("authenticateClient").
+                    setParameter("login", login).
+                    setParameter("password", password).getSingleResult();
+        } catch (Exception e) {
+            logger.log(Level.WARNING,
+                    "Could not find client with login of {0} ", login);
         }
         return client;
     }

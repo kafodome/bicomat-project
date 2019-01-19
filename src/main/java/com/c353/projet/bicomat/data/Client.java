@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,8 +38,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @Table(name = "client")
 @NamedQuery(
         name = "findAllClients",
-        query = "SELECT c FROM Client c "
-        + "ORDER BY c.id"
+        query = "SELECT c FROM Client c ORDER BY c.id"
 )
 @XmlRootElement(name = "client")
 @XmlSeeAlso({ClientInterne.class, ClientTiers.class})
@@ -66,9 +66,8 @@ public class Client implements Serializable {
     protected List<CarteBancaire> carteBancaires;
 
     @ManyToMany(mappedBy = "clients", fetch = FetchType.EAGER)
-    @XmlElement(name = "banques")
     protected List<Banque> banques;
-    
+
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     protected List<Compte> comptes;
 

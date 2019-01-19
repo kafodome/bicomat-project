@@ -1,11 +1,11 @@
 package com.c353.projet.bicomat.resource;
 
-import com.c353.projet.bicomat.data.Banque;
 import com.c353.projet.bicomat.data.Client;
 import com.c353.projet.bicomat.data.ClientInterne;
 import com.c353.projet.bicomat.data.ClientTiers;
-import com.c353.projet.bicomat.ejb.BanqueBean;
+import com.c353.projet.bicomat.data.Conseiller;
 import com.c353.projet.bicomat.ejb.ClientBean;
+import com.c353.projet.bicomat.ejb.ConseillerBean;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +45,9 @@ public class ClientService {
     @Inject
     ClientBean clientBean;
 
+    @Inject
+    ConseillerBean conseillerBean;
+
     @PostConstruct
     private void init() {
         cb = em.getCriteriaBuilder();
@@ -54,6 +57,7 @@ public class ClientService {
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Client> getAllClients() {
+        logger.log(Level.INFO, "OK");
         List<Client> clients = null;
         try {
             clients = this.clientBean.findAllClients();
@@ -69,11 +73,35 @@ public class ClientService {
     }
 
     @GET
+    @Path("conseiller/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Client> getAllClientsByConseiller(@PathParam("id") Long conseillerId) {
+        List<Client> clients = null;
+        Conseiller conseiller = null;
+        try {
+            conseiller = this.conseillerBean.findById(conseillerId);
+
+            if (conseiller == null) {
+                throw new WebApplicationException(Response.Status.NOT_FOUND);
+            }
+
+            clients = this.clientBean.findByConseiller(conseiller);
+            if (clients == null) {
+                throw new WebApplicationException(Response.Status.NOT_FOUND);
+            }
+        } catch (WebApplicationException ex) {
+            logger.log(Level.SEVERE,
+                    "Error calling findById()",
+                    new Object[]{ex.getMessage()});
+        }
+        return clients;
+    }
+
+    @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Client getClient(@PathParam("id") Long clientId) {
         Client client = null;
-
         try {
             client = this.clientBean.findById(clientId);
         } catch (Exception ex) {
@@ -99,7 +127,7 @@ public class ClientService {
                     Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @POST
     @Path("client_tiers")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -116,7 +144,6 @@ public class ClientService {
                     Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @PUT
     @Path("{id}")

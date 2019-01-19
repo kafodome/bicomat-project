@@ -1,10 +1,8 @@
 package com.c353.projet.bicomat.resource;
 
-import com.c353.projet.bicomat.data.Client;
-import com.c353.projet.bicomat.data.ClientInterne;
 import com.c353.projet.bicomat.data.Conseiller;
-import com.c353.projet.bicomat.ejb.ClientBean;
 import com.c353.projet.bicomat.ejb.ConseillerBean;
+import com.c353.projet.bicomat.filters.Secured;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,23 +26,20 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @Stateless
 @Path("/conseiller")
-public class ConseillerService {
+public class OperationService {
 
     public static final Logger logger
-            = Logger.getLogger(ConseillerService.class.getCanonicalName());
+            = Logger.getLogger(OperationService.class.getCanonicalName());
     @PersistenceContext
     private EntityManager em;
     private CriteriaBuilder cb;
 
     @Inject
     ConseillerBean conseillerBean;
-
-    @Inject
-    ClientBean clientBean;
 
     @PostConstruct
     private void init() {
@@ -84,26 +79,6 @@ public class ConseillerService {
                     new Object[]{conseillerId, ex.getMessage()});
         }
         return conseiller;
-    }
-
-    @GET
-    @Path("{id}/clients")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Client> getConseillerClients(@PathParam("id") Long conseillerId) {
-        Conseiller conseiller = null;
-        List<Client> clients = null;
-        try {
-            conseiller = this.conseillerBean.findById(conseillerId);
-            if (conseiller == null) {
-                throw new WebApplicationException(Response.Status.NOT_FOUND);
-            }
-            clients = this.clientBean.findByConseiller(conseiller);
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE,
-                    "Error calling getConseillerClients()",
-                    new Object[]{ex.getMessage()});
-        }
-        return clients;
     }
 
     @POST

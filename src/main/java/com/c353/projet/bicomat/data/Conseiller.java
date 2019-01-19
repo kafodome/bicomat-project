@@ -53,8 +53,9 @@ public class Conseiller implements Serializable {
 
     @XmlTransient
     private String password;
-    
-    @OneToMany(mappedBy = "conseiller", fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "conseiller")
+    @XmlTransient
     private List<ClientInterne> clients;
 
     public Long getId() {
@@ -135,5 +136,5 @@ public class Conseiller implements Serializable {
     public String toString() {
         return "Conseiller{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", login=" + login + '}';
     }
-    
+
 }
