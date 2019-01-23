@@ -1,11 +1,9 @@
 package com.c353.projet.bicomat.data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -15,14 +13,13 @@ import javax.persistence.TemporalType;
 @DiscriminatorValue("2")
 public class OperationDifferee extends Operation implements Serializable {
 
-    @Temporal(TemporalType.DATE)
-    private Date echeance;
+    private LocalDateTime echeance;
 
-    public Date getEcheance() {
+    public LocalDateTime getEcheance() {
         return echeance;
     }
 
-    public void setEcheance(Date echeance) {
+    public void setEcheance(LocalDateTime echeance) {
         this.echeance = echeance;
     }
 

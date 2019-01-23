@@ -5,7 +5,7 @@
  */
 package com.c353.projet.bicomat.resource.config;
 
-import com.c353.projet.bicomat.filters.AuthenticationFilter;
+import com.c353.projet.bicomat.filters.CorsFilter;
 import com.c353.projet.bicomat.resource.AuthenticationService;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ public class AuthenticationConfig extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         classes.add(AuthenticationService.class);
+        classes.add(CorsFilter.class);
         return classes;
     }
 }

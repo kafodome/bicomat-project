@@ -5,13 +5,12 @@ import java.time.LocalDate;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-
 /**
  *
  * @author Kwami Anukana AFODOME
  */
 @Converter(autoApply = true)
-public class LocalDateAttributeConverter 
+public class LocalDateAttributeConverter
         implements AttributeConverter<LocalDate, Date> {
 
     @Override

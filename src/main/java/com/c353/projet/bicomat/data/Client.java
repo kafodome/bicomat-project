@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,6 +26,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -61,14 +61,17 @@ public class Client implements Serializable {
 
     protected String email;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     @XmlElement(name = "carte_bancaires")
+    @XmlTransient
     protected List<CarteBancaire> carteBancaires;
 
-    @ManyToMany(mappedBy = "clients", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "clients", fetch = FetchType.LAZY)
+    @XmlTransient
     protected List<Banque> banques;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @XmlTransient
     protected List<Compte> comptes;
 
     public Long getId() {
@@ -147,6 +150,11 @@ public class Client implements Serializable {
             return false;
         }
         return Objects.equals(this.email, other.email);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", profession=" + profession + ", email=" + email + '}';
     }
 
 }

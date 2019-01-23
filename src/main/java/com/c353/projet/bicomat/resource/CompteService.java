@@ -7,12 +7,8 @@ import com.c353.projet.bicomat.ejb.CompteBean;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,17 +32,9 @@ public class CompteService {
 
     public static final Logger logger
             = Logger.getLogger(CompteService.class.getCanonicalName());
-    @PersistenceContext
-    private EntityManager em;
-    private CriteriaBuilder cb;
 
     @Inject
     CompteBean compteBean;
-
-    @PostConstruct
-    private void init() {
-        cb = em.getCriteriaBuilder();
-    }
 
     @GET
     @Path("all")
@@ -58,7 +46,7 @@ public class CompteService {
             if (comptes == null) {
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
-        } catch (WebApplicationException ex) {
+        } catch (Exception ex) {
             logger.log(Level.SEVERE,
                     "Error calling findAllComptes()",
                     new Object[]{ex.getMessage()});
@@ -101,7 +89,6 @@ public class CompteService {
     @Path("compte_epargne")
     @Consumes({MediaType.APPLICATION_JSON})
     public void createCopmteEpargne(CompteEpargne compte) {
-
         logger.log(Level.INFO, compte.toString());
         try {
             this.compteBean.persist(compte);

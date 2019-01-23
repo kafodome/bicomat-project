@@ -18,12 +18,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * La classe représente la structure des données à enregistrer pour pour une banque.
  *
  * @author Kwami Anukana AFODOME
+ * @version 1.0
  */
 @Entity
 @Table(name = "banque")
@@ -38,52 +42,85 @@ public class Banque implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @XmlAttribute(required = true)
-    private Long id;
+    private Long id; // Identifiant de la banque.
 
     @Column(nullable = false)
     @XmlElement(required = true)
-    private String nom;
+    private String nom; // Nom de la banque.
 
     @Column(nullable = false)
     @XmlElement(required = true)
-    private String adresse;
+    private String adresse; // Adresse de la banque.
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "banque_client",
             joinColumns = @JoinColumn(name = "banque_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
     @XmlTransient
-    private List<Client> clients;
+    private List<Client> clients; // Liste des clients de la banque.
 
+    /**
+     * Obtient l'identifiant de la banque.
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     *
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAdresse() {
         return adresse;
     }
 
+    /**
+     *
+     * @param adresse
+     */
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Client> getClients() {
         return clients;
     }
 
+    /**
+     *
+     * @param clients
+     */
     public void setClients(List<Client> clients) {
         this.clients = clients;
     }

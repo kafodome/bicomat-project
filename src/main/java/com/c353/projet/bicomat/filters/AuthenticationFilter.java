@@ -47,7 +47,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Validate the token
             validateToken(token);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED).build());
         }
@@ -67,7 +66,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 Duration duration = Duration.between(currentDateTime, authSession.getExpiryDate());
 
-                System.err.println(duration);
                 if (duration.isNegative() || duration.isZero()) {
                     throw new ForbiddenException("Your session has expired");
                 }
@@ -75,7 +73,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 authSessionBean.persist(authSession);
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }

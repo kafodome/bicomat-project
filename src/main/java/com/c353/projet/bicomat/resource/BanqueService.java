@@ -2,16 +2,11 @@ package com.c353.projet.bicomat.resource;
 
 import com.c353.projet.bicomat.data.Banque;
 import com.c353.projet.bicomat.ejb.BanqueBean;
-import com.c353.projet.bicomat.filters.Secured;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,7 +21,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @Stateless
 @Path("/banque")
@@ -34,17 +29,9 @@ public class BanqueService {
 
     public static final Logger logger
             = Logger.getLogger(BanqueService.class.getCanonicalName());
-    @PersistenceContext
-    private EntityManager em;
-    private CriteriaBuilder cb;
 
     @Inject
     BanqueBean banqueBean;
-
-    @PostConstruct
-    private void init() {
-        cb = em.getCriteriaBuilder();
-    }
 
     @GET
     @Path("all")

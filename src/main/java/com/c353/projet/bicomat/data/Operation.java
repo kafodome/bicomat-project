@@ -1,19 +1,17 @@
 package com.c353.projet.bicomat.data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,7 +20,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
@@ -49,13 +50,15 @@ public class Operation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "num_operation")
+    @XmlAttribute(name = "num_operation", required = true)
     protected Long numOperation;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_operation", nullable = false)
-    protected Date dateOperation;
+    @XmlElement(name = "date_operation", required = true)
+    protected LocalDateTime dateOperation = LocalDateTime.now();
 
     @Column(name = "montant_operation", nullable = false)
+    @XmlElement(name = "montant_operation", required = true)
     protected Double montantOperation;
 
     @Column(nullable = false)
@@ -63,10 +66,12 @@ public class Operation implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "compte_a", nullable = false)
+    @XmlElement(name = "compte_a", required = true)
     protected Compte compteA;
 
     @ManyToOne
     @JoinColumn(name = "compte_b", nullable = false)
+    @XmlElement(name = "compte_b", required = true)
     protected Compte compteB;
 
     public Long getNumOperation() {
@@ -77,11 +82,11 @@ public class Operation implements Serializable {
         this.numOperation = numOperation;
     }
 
-    public Date getDateOperation() {
+    public LocalDateTime getDateOperation() {
         return dateOperation;
     }
 
-    public void setDateOperation(Date dateOperation) {
+    public void setDateOperation(LocalDateTime dateOperation) {
         this.dateOperation = dateOperation;
     }
 
@@ -137,6 +142,11 @@ public class Operation implements Serializable {
         }
         final Operation other = (Operation) obj;
         return Objects.equals(this.numOperation, other.numOperation);
+    }
+
+    @Override
+    public String toString() {
+        return "Operation{" + "numOperation=" + numOperation + ", dateOperation=" + dateOperation + ", montantOperation=" + montantOperation + ", signe=" + signe + ", compteA=" + compteA + ", compteB=" + compteB + '}';
     }
 
 }

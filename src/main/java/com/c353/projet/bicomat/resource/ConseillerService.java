@@ -36,20 +36,12 @@ public class ConseillerService {
 
     public static final Logger logger
             = Logger.getLogger(ConseillerService.class.getCanonicalName());
-    @PersistenceContext
-    private EntityManager em;
-    private CriteriaBuilder cb;
 
     @Inject
     ConseillerBean conseillerBean;
 
     @Inject
     ClientBean clientBean;
-
-    @PostConstruct
-    private void init() {
-        cb = em.getCriteriaBuilder();
-    }
 
     @GET
     @Path("all")

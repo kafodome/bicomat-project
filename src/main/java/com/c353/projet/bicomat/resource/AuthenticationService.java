@@ -1,7 +1,6 @@
 package com.c353.projet.bicomat.resource;
 
 import com.c353.projet.bicomat.data.AuthSession;
-import com.c353.projet.bicomat.data.Client;
 import com.c353.projet.bicomat.data.ClientInterne;
 import com.c353.projet.bicomat.data.Conseiller;
 import com.c353.projet.bicomat.data.Credentials;
@@ -46,12 +45,12 @@ public class AuthenticationService {
 
     @POST
     @Path("client")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public Response clientAuthentication(@Valid Credentials credentials) {
+        ClientInterne client = null;
         String login = credentials.getLogin();
         String password = credentials.getPassword();
-        ClientInterne client = null;
 
         try {
             // Authenticate the user using the credentials provided
@@ -64,7 +63,9 @@ public class AuthenticationService {
                 client.setToken(token);
                 clientBean.merge(client);
             }
+                        
             return Response.ok(client).build();
+
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
@@ -75,9 +76,10 @@ public class AuthenticationService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response conseillerAuthentication(@Valid Credentials credentials) {
+
+        Conseiller conseiller = null;
         String login = credentials.getLogin();
         String password = credentials.getPassword();
-        Conseiller conseiller = null;
 
         try {
             // Authenticate the user using the credentials provided
@@ -113,7 +115,6 @@ public class AuthenticationService {
 
     private Conseiller authenticateConseiller(String login, String password) {
         Conseiller conseiller = null;
-
         try {
             conseiller = conseillerBean.findByLoginAndPassword(login, password);
         } catch (Exception e) {
@@ -121,7 +122,6 @@ public class AuthenticationService {
                     "Error calling authenticateConseiller()");
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
-
         return conseiller;
     }
 

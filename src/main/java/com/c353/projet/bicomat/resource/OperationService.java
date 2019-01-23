@@ -1,17 +1,12 @@
 package com.c353.projet.bicomat.resource;
 
-import com.c353.projet.bicomat.data.Conseiller;
-import com.c353.projet.bicomat.ejb.ConseillerBean;
-import com.c353.projet.bicomat.filters.Secured;
+import com.c353.projet.bicomat.data.Operation;
+import com.c353.projet.bicomat.ejb.OperationBean;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,68 +24,60 @@ import javax.ws.rs.core.Response;
  * @author Kwami Anukana AFODOME
  */
 @Stateless
-@Path("/conseiller")
+@Path("/operation")
 public class OperationService {
 
     public static final Logger logger
             = Logger.getLogger(OperationService.class.getCanonicalName());
-    @PersistenceContext
-    private EntityManager em;
-    private CriteriaBuilder cb;
 
     @Inject
-    ConseillerBean conseillerBean;
-
-    @PostConstruct
-    private void init() {
-        cb = em.getCriteriaBuilder();
-    }
+    OperationBean operationBean;
 
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Conseiller> getAllConseiller() {
+    public List<Operation> getAllOperations() {
 
-        List<Conseiller> conseillers = null;
+        List<Operation> operations = null;
         try {
-            conseillers = this.conseillerBean.findAllConseillers();
-            if (conseillers == null) {
+            operations = this.operationBean.findAllOperations();
+            if (operations == null) {
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
         } catch (WebApplicationException ex) {
             logger.log(Level.SEVERE,
-                    "Error calling findAllConseillers()",
+                    "Error calling findAllOperations()",
                     new Object[]{ex.getMessage()});
         }
-        return conseillers;
+        return operations;
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Conseiller getConseiller(@PathParam("id") Long conseillerId) {
-        Conseiller conseiller = null;
+    public Operation getOperation(@PathParam("id") Long numOperation) {
+        Operation operation = null;
 
         try {
-            conseiller = this.conseillerBean.findById(conseillerId);
+            operation = this.operationBean.findById(numOperation);
         } catch (Exception ex) {
             logger.log(Level.SEVERE,
-                    "Error calling findConseiller() for conseillerId {0}. {1}",
-                    new Object[]{conseillerId, ex.getMessage()});
+                    "Error calling findOperation() for numOperation {0}. {1}",
+                    new Object[]{numOperation, ex.getMessage()});
         }
-        return conseiller;
+        return operation;
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public void createConseiller(Conseiller conseiller) {
+    public void createOperation(Operation operation) {
 
         try {
-            this.conseillerBean.persist(conseiller);
+            this.operationBean.persist(operation);
         } catch (Exception e) {
             logger.log(Level.SEVERE,
-                    "Error creating conseiller for conseillerId {0}. {1}",
-                    new Object[]{conseiller.getId(), e.getMessage()});
+                    "Error creating operation for numOperation {0}. {1}",
+                    new Object[]{operation.getNumOperation(), e.getMessage()});
             throw new WebApplicationException(e,
                     Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -99,17 +86,17 @@ public class OperationService {
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response updateConseiller(@PathParam("id") Long conseillerId,
-            Conseiller conseiller) {
+    public Response updateOperation(@PathParam("id") Long numOperation,
+            Operation operation) {
 
         try {
-            Conseiller oldConseiller = this.conseillerBean.findById(conseillerId);
+            Operation oldOperation = this.operationBean.findById(numOperation);
 
-            if (oldConseiller == null) {
+            if (oldOperation == null) {
                 // return a not found in http/web format
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             } else {
-                this.conseillerBean.merge(conseiller);
+                this.operationBean.merge(operation);
                 return Response.ok().status(303).build(); //return a seeOther code
             }
         } catch (WebApplicationException e) {
@@ -120,16 +107,16 @@ public class OperationService {
 
     @DELETE
     @Path("{id}")
-    public void deleteConseiller(@PathParam("id") Long conseillerId) {
-        logger.log(Level.INFO, conseillerId.toString());
+    public void deleteOperation(@PathParam("id") Long numOperation) {
+        logger.log(Level.INFO, numOperation.toString());
         try {
-            if (!this.conseillerBean.remove(conseillerId)) {
+            if (!this.operationBean.remove(numOperation)) {
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             }
         } catch (Exception ex) {
             logger.log(Level.SEVERE,
-                    "Error calling deleteConseiller() for conseillerId {0}. {1}",
-                    new Object[]{conseillerId, ex.getMessage()});
+                    "Error calling deleteOperation() for numOperation {0}. {1}",
+                    new Object[]{numOperation, ex.getMessage()});
         }
     }
 

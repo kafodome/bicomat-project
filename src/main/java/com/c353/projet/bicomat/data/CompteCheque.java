@@ -13,10 +13,10 @@ import javax.xml.bind.annotation.XmlType;
  * @author AFK
  */
 @Entity
-@DiscriminatorValue("Compte chèques")
+@DiscriminatorValue("01")
 @XmlRootElement(name = "compte")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Compte chèques")
+@XmlType(name = "01")
 public class CompteCheque extends Compte implements Serializable {
 
     private boolean decouvert;

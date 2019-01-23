@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -44,17 +45,18 @@ public class Compte implements Serializable {
 
     @Id
     @Column(name = "num_compte")
-    @XmlElement(name = "num_compte", required = true)
+    @XmlAttribute(name = "num_compte", required = true)
     protected String numCompte;
 
     protected Double solde = 0.0;
 
     @ManyToOne
     @JoinColumn(name = "proprietaire", nullable = false)
-    @XmlTransient
+    @XmlElement(name = "proprietaire")
     protected Client client;
 
     @OneToMany(mappedBy = "compteA")
+    @XmlTransient
     protected List<Operation> operations;
 
     public String getNumCompte() {
@@ -101,6 +103,11 @@ public class Compte implements Serializable {
         }
         final Compte other = (Compte) obj;
         return Objects.equals(this.numCompte, other.numCompte);
+    }
+
+    @Override
+    public String toString() {
+        return "Compte{" + "numCompte=" + numCompte + ", solde=" + solde + ", client=" + client + '}';
     }
 
 }

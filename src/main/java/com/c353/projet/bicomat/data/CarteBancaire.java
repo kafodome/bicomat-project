@@ -15,8 +15,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,45 +49,84 @@ public class CarteBancaire implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "utilisateur", nullable = false)
-    @XmlTransient
     private Client client;
 
+    /**
+     *
+     * @return
+     */
     public String getNumCarte() {
         return numCarte;
     }
 
+    /**
+     *
+     * @param numCarte
+     */
     public void setNumCarte(String numCarte) {
         this.numCarte = numCarte;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTypeCarte() {
         return typeCarte;
     }
 
+    /**
+     *
+     * @param typeCarte
+     */
     public void setTypeCarte(String typeCarte) {
         this.typeCarte = typeCarte;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getEcheance() {
         return echeance;
     }
 
+    /**
+     *
+     * @param echeance
+     */
     public void setEcheance(Date echeance) {
         this.echeance = echeance;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodeCrypto() {
         return codeCrypto;
     }
 
+    /**
+     *
+     * @param codeCrypto
+     */
     public void setCodeCrypto(String codeCrypto) {
         this.codeCrypto = codeCrypto;
     }
 
+    /**
+     *
+     * @return
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     *
+     * @param client
+     */
     public void setClient(Client client) {
         this.client = client;
     }

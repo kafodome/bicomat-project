@@ -9,12 +9,8 @@ import com.c353.projet.bicomat.ejb.ConseillerBean;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -30,7 +26,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author AFK
+ * @author Kwami Anukana AFODOME
  */
 @Stateless
 @Path("/client")
@@ -38,20 +34,12 @@ public class ClientService {
 
     public static final Logger logger
             = Logger.getLogger(ClientService.class.getCanonicalName());
-    @PersistenceContext
-    private EntityManager em;
-    private CriteriaBuilder cb;
 
     @Inject
     ClientBean clientBean;
 
     @Inject
     ConseillerBean conseillerBean;
-
-    @PostConstruct
-    private void init() {
-        cb = em.getCriteriaBuilder();
-    }
 
     @GET
     @Path("all")
@@ -132,7 +120,6 @@ public class ClientService {
     @Path("client_tiers")
     @Consumes({MediaType.APPLICATION_JSON})
     public void createClientTiers(ClientTiers client) {
-
         logger.log(Level.INFO, client.toString());
         try {
             this.clientBean.persist(client);
@@ -158,7 +145,7 @@ public class ClientService {
                 // return a not found in http/web format
                 throw new WebApplicationException(Response.Status.NOT_FOUND);
             } else {
-                this.clientBean.merge(client);
+                //this.clientBean.merge(client);
                 return Response.ok().status(303).build(); //return a seeOther code
             }
         } catch (WebApplicationException e) {

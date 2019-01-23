@@ -7,6 +7,7 @@ import com.c353.projet.bicomat.resource.BanqueService;
 import com.c353.projet.bicomat.resource.ClientService;
 import com.c353.projet.bicomat.resource.CompteService;
 import com.c353.projet.bicomat.resource.ConseillerService;
+import com.c353.projet.bicomat.resource.OperationService;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
@@ -29,6 +30,7 @@ public class BicomatApplicationConfig extends Application {
         classes.add(ClientService.class);
         classes.add(CompteService.class);
         classes.add(ConseillerService.class);
+        classes.add(OperationService.class);
         return classes;
     }
 

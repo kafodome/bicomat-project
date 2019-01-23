@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -14,13 +15,14 @@ import javax.xml.bind.annotation.XmlType;
  * @author AFK
  */
 @Entity
-@DiscriminatorValue("Compte Épargne")
+@DiscriminatorValue("02")
 @XmlRootElement(name = "compte")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Compte Épargne")
+@XmlType(name = "02")
 public class CompteEpargne extends Compte implements Serializable {
 
     @Column(name = "taux_remuneration")
+    @XmlElement(name = "taux_remuneration")
     private double tauxRemuneration;
 
     public double getTauxRemuneration() {

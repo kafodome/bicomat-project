@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -56,15 +59,13 @@ public class Conseiller implements Serializable {
     private String prenom;
 
     @XmlElement(required = true)
-    @Column()
     private String login;
 
-    @XmlTransient
     private String password;
 
     private String token;
 
-    @OneToMany(mappedBy = "conseiller")
+    @OneToMany(mappedBy = "conseiller",fetch = FetchType.LAZY)
     @XmlTransient
     private List<ClientInterne> clients;
 
