@@ -13,5 +13,6 @@ Bicomat is a virtual agency whose purpose is to enable bank customers to carry o
 
 ## Installing
 ```
-$ gh repo clone kafodome/bicomat-project
+$ git clone https://github.com/kafodome/bicomat-project.git
+$ 
 ```
