@@ -32,5 +32,5 @@ Deploy the generated .war file located in ./target directory to your favorite ap
 # Execution
 Once the application is successfully deployed, the application should be accessibles under the following url: http://localhost:8080/bicomat-project
 
-#Author
+# Author
 @kafodome
