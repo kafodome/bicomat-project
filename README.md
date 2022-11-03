@@ -30,7 +30,7 @@ in glassfish-resources.xml:
 Deploy the generated .war file located in ./target directory to your favorite application server. The application has been tested with Glassfish server 3.1 but may work as well on any java server application that has implemented Java EE 6.
 
 # Execution
-Once the application is successfully deployed, the application should be accessibles under the following url: http://localhost:8080/bicomat-project
+Once the application is successfully deployed, it should be accessible under the following url : http://localhost:8080/bicomat-project
 
 # Author
 @kafodome
