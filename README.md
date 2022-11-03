@@ -1,8 +1,8 @@
 # Bicomat
-Bicomat an e-banking solution, a school project developed by a team of students to validate the "Design project" teaching unit.
+Bicomat is an e-banking solution, a school project developed by a team of students in order to complete the "Design project" teaching unit.
 
 # Description
-Bicomat is a virtual agency whose purpose is to enable bank customers to carry out banking transactions online via a website. It is a Java Enterprise application with an AngularJS front-end.
+Bicomat is a virtual agency which purpose is to enable bank customers to carry out banking transactions online via a website. It is a Java Enterprise application with an AngularJS front-end.
 
 # Dependencies
 - JDK 7 Update 11
@@ -26,7 +26,7 @@ Before packaging, one may need to change MySQL Server configurations to reflect 
 ```
 in glassfish-resources.xml:
 - replace localhost:3306 with your MySQL Sever ip address and port
-- provide User and Pasword if any.
+- provide User and Pasword if necessary.
 Deploy the generated .war file located in ./target directory to your favorite application server. The application has been tested with Glassfish server 3.1 but may work as well on any java server application that has implemented Java EE 6.
 
 # Execution
